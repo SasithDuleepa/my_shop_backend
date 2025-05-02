@@ -1,3 +1,5 @@
+const { Op } = require("sequelize");
+
 const { Item } = require("../models");
 
 const AddItem = async (req, res) => {
@@ -49,10 +51,21 @@ const GetItem = async (req, res) => {
   }
 };
 
+const ItemSearch = async (req, res) => {
+  const { search } = req.params;
+  const items = await Item.findAll({
+    where: {
+      [Op.or]: [{ item_name: { [Op.like]: `%${search}%` } }],
+    },
+  });
+  res.status(200).json(items);
+};
+
 module.exports = {
   AddItem,
   UpdateItem,
   DeleteItem,
   GetAllItems,
   GetItem,
+  ItemSearch,
 };
