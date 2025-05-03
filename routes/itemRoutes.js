@@ -7,7 +7,7 @@ const {
   GetAllItems,
   GetItem,
   ItemSearch,
-} = require("../controllers/ItemController");
+} = require("../controllers/itemController");
 
 const router = express.Router();
 

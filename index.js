@@ -3,6 +3,7 @@ const { connectDB } = require("./config/db");
 
 const ItemRoutes = require("./routes/itemRoutes");
 const BatchRoutes = require("./routes/batchRoutes");
+const CustomerRoutes = require("./routes/customerRoutes");
 
 const app = express();
 const port = 8080;
@@ -13,6 +14,7 @@ connectDB(); // 🟢 call the DB function
 
 app.use("/item", ItemRoutes);
 app.use("/batch", BatchRoutes);
+app.use("/customer", CustomerRoutes);
 
 app.listen(port, () => {
   console.log(`🚀 Server is running on port ${port}`);

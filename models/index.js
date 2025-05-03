@@ -4,12 +4,15 @@ const sequelize = require("../config/db").sequelize;
 
 const Item = require("./item")(sequelize);
 const ItemBatch = require("./itemBatch")(sequelize);
+const Customer = require("./customer")(sequelize);
 // const Sale = require("./Sale")(sequelize);
 // const SaleItem = require("./SaleItem")(sequelize);
 
 // Define relationships
 Item.hasMany(ItemBatch, { foreignKey: "item_id", sourceKey: "item_id" });
 ItemBatch.belongsTo(Item, { foreignKey: "item_id", targetKey: "item_id" });
+
+Customer;
 
 // Sale.hasMany(SaleItem);
 // SaleItem.belongsTo(Sale);
@@ -24,6 +27,7 @@ module.exports = {
   sequelize,
   Item,
   ItemBatch,
+  Customer,
   //   Sale,
   //   SaleItem
 };
