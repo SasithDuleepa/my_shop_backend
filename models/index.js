@@ -8,8 +8,8 @@ const ItemBatch = require("./itemBatch")(sequelize);
 // const SaleItem = require("./SaleItem")(sequelize);
 
 // Define relationships
-Item.hasMany(ItemBatch);
-ItemBatch.belongsTo(Item);
+Item.hasMany(ItemBatch, { foreignKey: "item_id", sourceKey: "item_id" });
+ItemBatch.belongsTo(Item, { foreignKey: "item_id", targetKey: "item_id" });
 
 // Sale.hasMany(SaleItem);
 // SaleItem.belongsTo(Sale);
