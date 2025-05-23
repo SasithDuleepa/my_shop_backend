@@ -1,6 +1,6 @@
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 
-const { Item } = require("../models");
+const { Item, ItemBatch } = require("../models");
 
 const AddItem = async (req, res) => {
   const { item_name, sku } = req.body;
@@ -53,12 +53,50 @@ const GetItem = async (req, res) => {
 
 const ItemSearch = async (req, res) => {
   const { search } = req.params;
-  const items = await Item.findAll({
-    where: {
-      [Op.or]: [{ item_name: { [Op.like]: `%${search}%` } }],
-    },
-  });
-  res.status(200).json(items);
+
+  try {
+    const items = await Item.findAll({
+      where: {
+        item_name: {
+          [Op.like]: `%${search}%`,
+        },
+      },
+      include: [
+        {
+          model: ItemBatch,
+          required: false, // 🔁 Make it a LEFT JOIN so items without batches are also shown
+          where: {
+            batch_id: {
+              [Op.like]: `%${search}%`,
+            },
+          },
+        },
+      ],
+    });
+
+    // If no match in item_name, search in batch_id
+    if (items.length === 0) {
+      const itemsByBatch = await Item.findAll({
+        include: [
+          {
+            model: ItemBatch,
+            where: {
+              batch_id: {
+                [Op.like]: `%${search}%`,
+              },
+            },
+          },
+        ],
+      });
+
+      return res.status(200).json(itemsByBatch);
+    }
+
+    res.status(200).json(items);
+  } catch (error) {
+    console.error("Search error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 };
 
 module.exports = {

@@ -45,8 +45,8 @@ const CustomerSearch = async (req, res) => {
   const customers = await Customer.findAll({
     where: {
       [Op.or]: [{ customer_name: { [Op.like]: `%${search}%` } }],
-      [Op.or]: [{ nic: { [Op.like]: `%${search}%` } }],
-      [Op.or]: [{ contact: { [Op.like]: `%${search}%` } }],
+      // [Op.or]: [{ nic: { [Op.like]: `%${search}%` } }],
+      // [Op.or]: [{ contact: { [Op.like]: `%${search}%` } }],
     },
   });
   res.status(200).json(customers);

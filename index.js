@@ -1,4 +1,6 @@
 const express = require("express");
+const cors = require("cors");
+
 const { connectDB } = require("./config/db");
 
 const ItemRoutes = require("./routes/itemRoutes");
@@ -7,6 +9,12 @@ const CustomerRoutes = require("./routes/customerRoutes");
 
 const app = express();
 const port = 8080;
+
+const corsOptions = {
+  origin: "http://localhost:3000", // Only allow React frontend
+};
+
+app.use(cors());
 
 app.use(express.json());
 

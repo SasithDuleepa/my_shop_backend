@@ -1,10 +1,10 @@
-const { ItemBatch } = require("../models");
+const { Item, ItemBatch } = require("../models");
 
 const AddBatch = async (req, res) => {
   const {
     batch_id,
     item_id,
-    sell_price,
+    sell_price, // going to sale this item on this price
     buy_price,
     manufacture_date,
     exp_date,
@@ -84,10 +84,20 @@ const GetAllBatches = async (req, res) => {
 const GetBatch = async (req, res) => {
   const { id } = req.params;
   try {
-    const batch = await ItemBatch.findOne({ where: { batch_id: id } });
-    if (!batch) {
+    const batch = await ItemBatch.findAll({
+      where: { batch_id: id },
+      include: [
+        {
+          model: Item,
+          attributes: ["item_name", "sku"], // 👈 Only get the item_name
+        },
+      ],
+    });
+
+    if (!batch || batch.length === 0) {
       return res.status(404).json({ error: "Batch not found" });
     }
+
     res.status(200).json(batch);
   } catch (error) {
     res.status(500).json({ error: error.message });
