@@ -9,6 +9,7 @@ const AddBatch = async (req, res) => {
     manufacture_date,
     exp_date,
     quantity,
+    batch_truevalue,
   } = req.body;
   try {
     const newBatch = await ItemBatch.create({
@@ -19,6 +20,7 @@ const AddBatch = async (req, res) => {
       manufacture_date,
       exp_date,
       quantity,
+      batch_truevalue,
     });
     res.status(201).json(newBatch);
   } catch (error) {
@@ -36,6 +38,7 @@ const UpdateBatch = async (req, res) => {
     manufacture_date,
     exp_date,
     quantity,
+    batch_truevalue,
   } = req.body;
   try {
     const updatedBatch = await ItemBatch.update(
@@ -47,6 +50,7 @@ const UpdateBatch = async (req, res) => {
         manufacture_date,
         exp_date,
         quantity,
+        batch_truevalue,
       },
       { where: { batch_id: id } }
     );
