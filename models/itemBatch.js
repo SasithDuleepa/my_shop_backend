@@ -36,6 +36,10 @@ module.exports = (sequelize) => {
       quantity: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
+      },
+      batch_truevalue: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
       }, // 🟢 enables createdAt and updatedAt
     },
     {
